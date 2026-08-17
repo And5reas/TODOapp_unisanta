@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { Tarefa } from './tarefa';
 
 @Component({
@@ -16,8 +16,12 @@ export class App {
     this.READ_tarefas();
   }
 
-  CREATE_tarefa(descricaoNovaTarefa: string) {
-    var novaTarefa = new Tarefa(descricaoNovaTarefa, false);
+  CREATE_tarefa(descricaoNovaTarefa: HTMLInputElement) {
+    var novaTarefa = new Tarefa(descricaoNovaTarefa.value, false);
+    
+    descricaoNovaTarefa.value = '';
+    descricaoNovaTarefa.focus();
+
     this.arrayDeTarefas.unshift(novaTarefa);
   }
 

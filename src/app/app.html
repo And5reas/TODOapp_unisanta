@@ -11,14 +11,14 @@
   <div class="content">
     <h1>Mozilla Dev - My To Do List</h1>
 
-    <input class="lg-text-input" #campoNovoItem />
-    <button class="btn-primary" (click)="CREATE_tarefa(campoNovoItem.value)">
+    <input class="lg-text-input" #campoNovoItem (keyup.enter)="CREATE_tarefa(campoNovoItem)" />
+    <button class="btn-primary" (click)="CREATE_tarefa(campoNovoItem)">
       Adicionar Tarefa
     </button>
 
     <ul>
       <li *ngFor="let tarefaDoLoop of arrayDeTarefas">
-        {{tarefaDoLoop.descricao}}
+        <app-tarefa-item [tarefa]="tarefaDoLoop" ></app-tarefa-item>
       </li>
     </ul>
   </div>
