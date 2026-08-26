@@ -2,6 +2,25 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.3.
 
+## Quick Start
+
+```bash
+# Download and install Chocolatey:
+powershell -c "irm https://community.chocolatey.org/install.ps1|iex"
+
+# Download and install Node.js:
+choco install nodejs --version="24.19.0"
+
+# Install Angular CLI
+npm install -g @angular/cli
+
+# Intall all dependencies
+npm i
+
+# Start local development
+ng serve
+```
+
 ## Development server
 
 To start a local development server, run:
