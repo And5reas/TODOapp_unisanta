@@ -25,6 +25,13 @@ export class App {
     this.arrayDeTarefas.unshift(novaTarefa);
   }
 
+  DELETE_tarefa(tarefaParaRemover: Tarefa) {
+    const index = this.arrayDeTarefas.indexOf(tarefaParaRemover);
+    if (index !== -1) {
+      this.arrayDeTarefas.splice(index, 1);
+    }
+  }
+
   READ_tarefas() {
     this.arrayDeTarefas = [
       new Tarefa("Estudar Frameworks WEB", false),

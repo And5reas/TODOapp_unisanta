@@ -10,4 +10,5 @@ import { Tarefa } from '../tarefa';
 export class TarefaItem {
   emEdicao = false;
   @Input() tarefa: Tarefa = new Tarefa("", false);
+  @Output() removerTarefa = new EventEmitter<Tarefa>();
 }
