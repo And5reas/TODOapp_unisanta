@@ -3,18 +3,36 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "ng serve",
+      "name": "Frontend run",
       "type": "chrome",
       "request": "launch",
-      "preLaunchTask": "npm: start",
+      "preLaunchTask": "Start Frontend",
+      "postDebugTask": "Kill Frontend",
       "url": "http://localhost:4200/"
     },
     {
       "name": "ng test",
       "type": "chrome",
       "request": "launch",
-      "preLaunchTask": "npm: test",
+      "preLaunchTask": "Run Tests",
       "url": "http://localhost:9876/debug.html"
+    },
+    {
+      "name": "Backend run",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/backend",
+      "preLaunchTask": "Start Backend",
+      "postDebugTask": "Kill Backend"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Backend + Frontend",
+      "configurations": [
+        "Frontend run",
+        "Backend run"
+      ]
     }
   ]
 }

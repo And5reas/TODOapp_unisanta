@@ -1,42 +1,83 @@
 {
-  // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Start Backend",
       "type": "npm",
       "script": "start",
+      "path": "backend",
       "isBackground": true,
       "problemMatcher": {
-        "owner": "typescript",
-        "pattern": "$tsc",
+        "owner": "javascript",
+        "pattern": {
+          "regexp": "^$",
+          "file": 1,
+          "location": 2,
+          "message": 3
+        },
         "background": {
           "activeOnStart": true,
           "beginsPattern": {
             "regexp": "Changes detected"
           },
           "endsPattern": {
-            "regexp": "bundle generation (complete|failed)"
+            "regexp": "Database Connected"
           }
         }
       }
     },
     {
+      "label": "Start Frontend",
       "type": "npm",
-      "script": "test",
+      "script": "start",
+      "path": "frontend",
       "isBackground": true,
       "problemMatcher": {
         "owner": "typescript",
-        "pattern": "$tsc",
+        "pattern": {
+          "regexp": "^$",
+          "file": 1,
+          "location": 2,
+          "message": 3
+        },
         "background": {
           "activeOnStart": true,
           "beginsPattern": {
-            "regexp": "Changes detected"
+            "regexp": "."
           },
           "endsPattern": {
-            "regexp": "bundle generation (complete|failed)"
+            "regexp": "Application bundle generation complete\\."
           }
         }
       }
+    },
+    {
+      "label": "Run Tests",
+      "type": "npm",
+      "script": "test",
+      "path": "frontend",
+      "isBackground": true,
+      "problemMatcher": "$tsc-watch"
+    },
+    {
+      "label": "Start All Services",
+      "dependsOn": [
+        "Start Backend",
+        "Start Frontend"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Kill Backend",
+      "type": "shell",
+      "command": "npx kill-port 3000",
+      "problemMatcher": []
+    },
+    {
+      "label": "Kill Frontend",
+      "type": "shell",
+      "command": "npx kill-port 4200",
+      "problemMatcher": []
     }
   ]
 }
