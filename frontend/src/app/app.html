@@ -11,16 +11,17 @@
   <div class="content">
     <h1>Mozilla Dev - My To Do List</h1>
 
-    <input class="lg-text-input" #campoNovoItem (keyup.enter)="CREATE_tarefa(campoNovoItem)" />
-    <button class="btn-primary" (click)="CREATE_tarefa(campoNovoItem)">
+    <input class="lg-text-input" #campoNovoItem (keyup.enter)="CREATE_tarefa(campoNovoItem.value)" />
+    <button class="btn-primary" (click)="CREATE_tarefa(campoNovoItem.value)">
       Adicionar Tarefa
     </button>
 
     <ul>
-      <li *ngFor="let tarefaDoLoop of arrayDeTarefas">
+      <li *ngFor="let tarefaDoLoop of arrayDeTarefas()">
         <app-tarefa-item 
            [tarefa]="tarefaDoLoop" 
-           (removerTarefa)="DELETE_tarefa($event)">
+           (removerTarefa)="DELETE_tarefa($event)"
+           (modificaTarefa)="UPDATE_tarefa($event)">
         </app-tarefa-item>
       </li>
     </ul>
@@ -34,5 +35,3 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-

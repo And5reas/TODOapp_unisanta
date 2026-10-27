@@ -1,5 +1,6 @@
 import { Component, Input, signal } from '@angular/core';
 import { Tarefa } from './tarefa';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -10,33 +11,45 @@ import { Tarefa } from './tarefa';
 export class App {
   protected readonly title = signal('TODOapp');
 
-  arrayDeTarefas: Tarefa[] = [];
+  arrayDeTarefas = signal<Tarefa[]>([]);
+  apiURL: string;
 
-  constructor() {
+  constructor(private http: HttpClient) {
+    this.apiURL = 'http://localhost:3000';
     this.READ_tarefas();
   }
 
-  CREATE_tarefa(descricaoNovaTarefa: HTMLInputElement) {
-    var novaTarefa = new Tarefa(descricaoNovaTarefa.value, false);
-    
-    descricaoNovaTarefa.value = '';
-    descricaoNovaTarefa.focus();
-
-    this.arrayDeTarefas.unshift(novaTarefa);
+  CREATE_tarefa(descricaoNovaTarefa: string) {
+    var novaTarefa = new Tarefa(descricaoNovaTarefa, false);
+    this.http.post<Tarefa>(`${this.apiURL}/api/post`, novaTarefa).subscribe(
+    resultado => { console.log(resultado); this.READ_tarefas(); });
   }
 
-  DELETE_tarefa(tarefaParaRemover: Tarefa) {
-    const index = this.arrayDeTarefas.indexOf(tarefaParaRemover);
-    if (index !== -1) {
-      this.arrayDeTarefas.splice(index, 1);
-    }
+  DELETE_tarefa(tarefaAserRemovida: Tarefa) {
+    var indice = this.arrayDeTarefas().indexOf(tarefaAserRemovida);
+    var id = this.arrayDeTarefas()[indice]._id;
+    this.http.delete<Tarefa>(`${this.apiURL}/api/delete/${id}`).subscribe(
+    resultado => { console.log(resultado); this.READ_tarefas(); });
   }
 
   READ_tarefas() {
-    this.arrayDeTarefas = [
-      new Tarefa("Estudar Frameworks WEB", false),
-      new Tarefa("Comer Pizza", false),
-      new Tarefa("Ajudar meus pais", false)
-    ]
+    this.http.get<Tarefa[]>(`${this.apiURL}/api/getAll`).subscribe(
+    resultado => this.arrayDeTarefas.set(resultado));
+  }
+
+  UPDATE_tarefa(tarefaAserModificada: Tarefa) {
+    const id = tarefaAserModificada._id;
+    if (!id) {
+      console.error('Não foi possível atualizar a tarefa: identificador ausente.');
+      return;
+    }
+
+    this.http.patch<Tarefa>(`${this.apiURL}/api/update/${id}`, tarefaAserModificada).subscribe({
+      next: () => this.READ_tarefas(),
+      error: error => {
+        console.error('Falha ao atualizar a tarefa:', error);
+        this.READ_tarefas();
+      }
+    });
   }
 }
