@@ -1,0 +1,30 @@
+# Artefatos e dependências locais
+node_modules
+dist
+.angular
+tmp
+out-tsc
+coverage
+
+# Segredos e configurações locais (nunca entram na imagem)
+.env
+.env.*
+!.env.example
+
+# Controle de versão e metadados
+.git
+.gitignore
+.vscode
+.idea
+
+# Documentação e arquivos que não participam do build
+docs
+*.md
+Dockerfile
+.dockerignore
+.editorconfig
+.prettierrc
+
+# Sistema
+.DS_Store
+Thumbs.db

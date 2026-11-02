@@ -1,0 +1,25 @@
+# Artefatos e dependências locais
+node_modules
+npm-debug.log*
+yarn-error.log*
+
+# Segredos e configurações locais (nunca entram na imagem)
+.env
+.env.*
+!.env.example
+
+# Controle de versão e metadados
+.git
+.gitignore
+.vscode
+.idea
+
+# Arquivos que não são necessários para executar a API
+*.md
+docs
+Dockerfile
+.dockerignore
+
+# Sistema
+.DS_Store
+Thumbs.db

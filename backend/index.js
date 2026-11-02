@@ -15,11 +15,18 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 const PORT = process.env.PORT || 3000;
+// Garante que o servidor aceite conexões externas (dentro do container)
+const HOST = process.env.HOST || '0.0.0.0';
+
+// Endpoint de saúde usado pelos healthchecks do Docker (não depende do banco)
+app.get('/api/health', (req, res) => {
+    res.status(200).json({ status: 'ok' });
+});
 
 const routes = require('./api/routes/routes');
 app.use('/api', routes);
 
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
     console.log(`Server Started at ${PORT}`)
 })
 

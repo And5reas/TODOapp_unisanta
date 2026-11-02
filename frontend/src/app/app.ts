@@ -1,6 +1,7 @@
 import { Component, Input, signal } from '@angular/core';
 import { Tarefa } from './tarefa';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,9 @@ export class App {
   apiURL: string;
 
   constructor(private http: HttpClient) {
-    this.apiURL = 'http://localhost:3000';
+    // Produção: '' (requisições relativas, proxy do Nginx).
+    // Desenvolvimento: http://localhost:3000 (via environment.development.ts).
+    this.apiURL = environment.apiURL;
     this.READ_tarefas();
   }
 
