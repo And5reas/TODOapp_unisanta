@@ -2,6 +2,7 @@ import { Component, Input, signal } from '@angular/core';
 import { Tarefa } from './tarefa';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,8 @@ export class App {
 
   arrayDeTarefas = signal<Tarefa[]>([]);
   apiURL: string;
+  usuarioLogado = signal(false);
+  tokenJWT = '{ "token":""}';
 
   constructor(private http: HttpClient) {
     // Produção: '' (requisições relativas, proxy do Nginx).
@@ -36,8 +39,11 @@ export class App {
   }
 
   READ_tarefas() {
-    this.http.get<Tarefa[]>(`${this.apiURL}/api/getAll`).subscribe(
-    resultado => this.arrayDeTarefas.set(resultado));
+    const idToken = new HttpHeaders().set("id-token", JSON.parse(this.tokenJWT).token);
+    this.http.get<Tarefa[]>(`${this.apiURL}/api/getAll`, { 'headers': idToken }).subscribe(
+      (resultado) => { this.arrayDeTarefas.set(resultado); this.usuarioLogado.set(true) },
+      (error) => { this.usuarioLogado.set(false) }
+    )
   }
 
   UPDATE_tarefa(tarefaAserModificada: Tarefa) {
@@ -53,6 +59,14 @@ export class App {
         console.error('Falha ao atualizar a tarefa:', error);
         this.READ_tarefas();
       }
+    });
+  }
+
+  login(username: string, password: string) {
+  var credenciais = { "nome": username, "senha": password }
+    this.http.post(`${this.apiURL}/api/login`, credenciais).subscribe(resultado => {
+    this.tokenJWT = JSON.stringify(resultado);
+    this.READ_tarefas();
     });
   }
 }

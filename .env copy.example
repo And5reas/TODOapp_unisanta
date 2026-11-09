@@ -1,0 +1,23 @@
+# ============================================================
+# Variáveis de ambiente do projeto (valores fictícios/exemplo)
+# Como usar: cp .env.example .env  e ajuste conforme necessário.
+# ATENÇÃO: o arquivo .env real é ignorado pelo Git e NUNCA deve
+#          conter credenciais reais versionadas.
+# ============================================================
+
+# --- Docker Hub (nomenclatura das imagens) ---
+# Imagens publicadas:
+#   ${DOCKERHUB_USER}/${PROJECT_NAME}-frontend:latest
+#   ${DOCKERHUB_USER}/${PROJECT_NAME}-backend:latest
+DOCKERHUB_USER=and5reas
+PROJECT_NAME=todoapp
+
+# --- Portas expostas no host ---
+FRONTEND_PORT=80
+BACKEND_PORT=3000
+
+# --- Banco de dados (MongoDB) ---
+# Padrão: serviço mongodb definido no docker-compose.yml (rede interna).
+MONGO_URL=mongodb+srv://user:Bnh0CvfNi2sdLfHk@cluster0.iztocf2.mongodb.net/?appName=Cluster0
+# Exemplo com MongoDB Atlas (substitua pelas suas credenciais):
+# MONGO_URL=mongodb+srv://usuario:senha@cluster.example.mongodb.net/todoapp
